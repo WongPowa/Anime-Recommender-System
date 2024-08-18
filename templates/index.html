@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tutorial</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='mycss.css')}}">
+    </head>
+    <body>
+        <h1 class="text-center">Anime Recommender System</h1>
+    
+        <!--Make sure the form has the autocomplete function switched off:-->
+        <p>Select animes to watch!</p>
+        <form autocomplete="off" id="animeForm">
+            <div class="autocomplete" style="width:300px;">
+            <input id="animeInput" type="text" name="myAnime" placeholder="Search for an anime!">
+            </div>
+            <input id="ratingInput" type="number" name="myAnime" placeholder="Rate this anime!">
+            <input type="submit" value="Add Anime">
+        </form>
+        
+        <p>Your Anime ID: <div id="personal_user_id">5001</div></p>
+        <p>Your liked anime list:</p>
+        <ul id="likedAnimeList"></ul>
+
+        <div class="button-container">
+            <button class="newUserButton" type="button" onclick="submitForm()" id="newUserButton">Create New User</button>
+        </div>
+
+        <form class="p-3 text-center" action='/', method="post" name="myForm" onsubmit="return validateForm()">
+            <input class="form-control" type="number" name="userid" placeholder="Enter a UserID!">
+            <input class="btn btn-primary mt-3" type="submit" value="Get Recommendations">
+        </form>
+
+        <table style="margin-left: auto; margin-right: auto;">
+            <tr>
+                {% for col in column_names %}
+                <th class="text-uppercase">{{col}}</th>
+                {% endfor %}
+            </tr>
+            {% for row in row_data %}
+            <tr>
+                {% for col, row_ in zip(column_names, row) %}
+                {% if col == link_column %}
+                <td>
+                </td>
+                {% else %}
+                <td>{{row_}}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        
+        </table>
+        <p>AVG RMSE: {{average_rmse}}</p>
+        <p>AVG MAE: {{average_mae}}</p>
+        <p>STD DEV RMSE: {{std_dev_rmse}}</p>
+        <p>AVG MAE: {{std_dev_mae}}</p>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='myjs.js')}}"></script>
+    </body>
+</html>
